@@ -4,10 +4,9 @@ Gemini API で記事生成 → Blogger に自動投稿
 """
 
 import os
-import random
 import datetime
 import requests
-import google.generativeai as genai
+from google import genai
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
@@ -56,8 +55,7 @@ ARTICLE_THEMES = [
 # Gemini で記事生成
 # =============================
 def generate_article(theme: str) -> dict:
-    genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    client = genai.Client(api_key=GEMINI_API_KEY)
 
     prompt = f"""
 あなたはSEOに強いブログライターです。
@@ -77,7 +75,10 @@ def generate_article(theme: str) -> dict:
 記事本文のみ出力してください。
 """
 
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=prompt,
+    )
     article_html = response.text.strip()
 
     # アフィリエイトリンクを末尾に追加
@@ -143,7 +144,6 @@ def post_to_blogger(title: str, content: str):
 # =============================
 def main():
     today = datetime.date.today()
-    # 日付ベースでテーマをローテーション
     theme_index = today.toordinal() % len(ARTICLE_THEMES)
     theme = ARTICLE_THEMES[theme_index]
 
