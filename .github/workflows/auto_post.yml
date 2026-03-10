@@ -1,0 +1,33 @@
+name: 毎日自動ブログ投稿
+
+on:
+  schedule:
+    - cron: '0 22 * * *'  # 毎日 日本時間 朝7時（UTC 22:00）
+  workflow_dispatch:       # 手動実行も可能
+
+jobs:
+  post-blog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v3
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 依存パッケージをインストール
+        run: |
+          pip install google-generativeai google-api-python-client google-auth requests
+
+      - name: ブログ自動投稿を実行
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN }}
+          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+        run: |
+          python auto_blog.py
