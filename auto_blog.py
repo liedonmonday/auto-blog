@@ -45,7 +45,7 @@ AFFILIATE_LINKS = [
 
 # 記事テーマリスト（自動でローテーション）
 ARTICLE_THEMES = [
-    "​:codex-terminal-citation[codex-terminal-citation]{line_range_start=1 line_range_end=450 terminal_chunk_id=AIで稼ぐ研究所】AIを使って副業で稼ぐ方法・初心者向け完全ガイド",
+    "​【AIで稼ぐ研究所】AIを使って副業で稼ぐ方法・初心者向け完全ガイド",
     "【AIで稼ぐ研究所】ChatGPTで月5万円稼ぐ具体的な方法",
     "【AIで稼ぐ研究所】自動化ツールを使って不労所得を作る方法",
     "【AIで稼ぐ研究所】ブログアフィリエイトをAIで効率化する手順",
